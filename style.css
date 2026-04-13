@@ -12,9 +12,14 @@ a {
   text-decoration: none;
   color: green;
   font-weight: bold;
-  margin: 10px;
 }
 
-a:hover {
-  color: darkblue;
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  background-color: green;
+  color: white;
+  cursor: pointer;
 }
