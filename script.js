@@ -1,65 +1,93 @@
-let score = 0;
+const foodData = {
+  fried: ["fries", "fried chicken"],
+  fast: ["burger", "pizza"],
+  processed: ["chips", "instant noodles"],
+  meat: ["beef", "bacon"],
+  dairy: ["cheese", "ice cream"],
+  snacks: ["cookies", "candy"],
+  drinks: ["cola", "energy drink"],
+  healthy: ["salad", "fruits"]
+};
 
-function suggestFood() {
-let food = document.getElementById("foodInput").value.toLowerCase();
+function updateFoods() {
+  let category = document.getElementById("category").value;
+  let foodSelect = document.getElementById("foodOptions");
 
-// Handle empty input
-if (food.trim() === "") {
-document.getElementById("result").innerHTML = "⚠️ Please enter a food item";
-document.getElementById("score").innerHTML = "";
-return;
-}
+  foodSelect.innerHTML = "<option>Select Food</option>";
 
-let result = "";
-let impact = "";
-let why = "Small food choices can reduce carbon footprint significantly 🌍";
-let score = 0;
+  if (!category) return;
 
-if (food.includes("burger")) {
-result = "🌱 Try a homemade veggie burger";
-impact = "You can save ~100L water and reduce carbon footprint 🌍";
-score = 10;
-}
-else if (food.includes("pizza")) {
-result = "🍕 Try fresh homemade pizza with vegetables";
-impact = "Fresh ingredients reduce packaging waste ♻️";
-score = 8;
-}
-else if (food.includes("chips")) {
-result = "🍎 Try fruits or baked snacks";
-impact = "Less processed food = healthier + eco-friendly 🌿";
-score = 6;
-}
-else if (food.includes("pasta")) {
-result = "🌾 Try whole wheat pasta with veggies";
-impact = "Better nutrition + lower environmental impact 🌍";
-score = 9;
-}
-else if (food.includes("rice")) {
-result = "🍚 Choose locally sourced or brown rice";
-impact = "Supports local farmers 🌾";
-score = 8;
-}
-else {
-result = "🌿 Choose fresh, organic food";
-impact = "Supports healthy soil and sustainable farming 🌱";
-score = 7;
+  foodData[category].forEach(food => {
+    let option = document.createElement("option");
+    option.value = food;
+    option.textContent = food;
+    foodSelect.appendChild(option);
+  });
 }
 
-// Show result + impact + why
-document.getElementById("result").innerHTML =
-result + "<br>" + impact + "<br><i>" + why + "</i>";
+function analyzeFood() {
+  let food = document.getElementById("foodOptions").value;
 
-// Show score
-let scoreElement = document.getElementById("score");
-scoreElement.innerHTML = "Eco Score: " + score;
+  if (food === "Select Food") {
+    document.getElementById("resultBox").innerHTML = "⚠️ Please select a food.";
+    return;
+  }
 
-// Color logic
-if (score >= 8) {
-scoreElement.style.color = "green";
-} else if (score >= 6) {
-scoreElement.style.color = "orange";
-} else {
-scoreElement.style.color = "red";
-}
+  let score = 0;
+  let impact = "";
+  let suggestions = "";
+
+  if (food === "burger" || food === "beef" || food === "bacon") {
+    score = 3;
+    impact = "High carbon footprint due to meat production.";
+    suggestions = "Veggie burger 🌱, Mushroom sandwich 🍄, Lentil wrap 🫘";
+  }
+  else if (food === "pizza" || food === "cheese") {
+    score = 5;
+    impact = "Dairy increases emissions.";
+    suggestions = "Veggie pizza 🍕, Vegan cheese 🧀, Flatbread 🌾";
+  }
+  else if (food === "chips" || food === "cookies" || food === "candy") {
+    score = 6;
+    impact = "Processed food + packaging waste.";
+    suggestions = "Fruits 🍎, Nuts 🥜, Homemade snacks 🍪";
+  }
+  else if (food === "fries" || food === "fried chicken") {
+    score = 4;
+    impact = "Uses excess oil and energy.";
+    suggestions = "Baked fries 🔥, Air-fried 🌬️, Grilled 🍗";
+  }
+  else if (food === "cola" || food === "energy drink") {
+    score = 5;
+    impact = "Sugary + plastic waste.";
+    suggestions = "Juice 🧃, Lemon water 🍋, Herbal drinks 🌿";
+  }
+  else if (food === "salad" || food === "fruits") {
+    score = 9;
+    impact = "Very eco-friendly and healthy.";
+    suggestions = "Keep it up ✅, Local produce 🧺, Variety 🌈";
+  }
+  else {
+    score = 7;
+    impact = "Moderate environmental impact.";
+    suggestions = "Fresh food 🌿, Less packaging ♻️, Home cooking 🍳";
+  }
+
+  let color = score >= 8 ? "green" : score >= 5 ? "orange" : "red";
+
+  document.getElementById("resultBox").innerHTML = `
+    <h3>🌱 Food Analysis</h3>
+
+    <p><strong>Eco Score: ${score}/10</strong></p>
+    <div class="score-bar">
+      <div class="fill" id="fillBar" style="background:${color};"></div>
+    </div>
+
+    <p><strong>Impact:</strong> ${impact}</p>
+    <p><strong>Better Options:</strong> ${suggestions}</p>
+  `;
+
+  setTimeout(() => {
+    document.getElementById("fillBar").style.width = (score * 10) + "%";
+  }, 100);
 }
