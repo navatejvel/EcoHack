@@ -1,25 +1,111 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Food Recommender</title>
-  <link rel="stylesheet" href="style.css">
+  <title>EcoEats</title>
+
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background: linear-gradient(135deg, #d4fc79, #96e6a1);
+      text-align: center;
+    }
+
+    h1 {
+      margin-top: 30px;
+      color: #1b5e20;
+      font-size: 40px;
+    }
+
+    .container {
+      background: white;
+      margin: 40px auto;
+      padding: 25px;
+      width: 350px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      animation: fadeIn 0.6s ease-in-out;
+    }
+
+    select, button {
+      width: 90%;
+      padding: 10px;
+      margin: 10px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background: #2e7d32;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #1b5e20;
+    }
+
+    #resultBox {
+      margin-top: 20px;
+      text-align: left;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .score-bar {
+      height: 10px;
+      border-radius: 5px;
+      background: #ddd;
+      margin-top: 5px;
+      overflow: hidden;
+    }
+
+    .fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 5px;
+      transition: width 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(10px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+  </style>
 </head>
 
 <body>
 
-<h1>🤖 Eco Food Recommender</h1>
+<h1>🌱 EcoEats</h1>
 
-<p>Enter a food item and get a healthier, eco-friendly suggestion:</p>
+<div class="container">
 
-<input type="text" id="foodInput" placeholder="Enter food (e.g. burger)">
-<br><br>
-<button onclick="suggestFood()">Suggest</button>
-<p id="result"></p>
-<p id="score">Eco Score: 0</p>
+  <p>Select your food and see its impact 👇</p>
 
-<br>
-<a href="index.html">⬅ Back to Home</a>
-    <script src="script.js"></script>
+  <select id="category" onchange="updateFoods()">
+    <option value="">Select Category</option>
+    <option value="fried">Fried</option>
+    <option value="fast">Fast Food</option>
+    <option value="processed">Processed</option>
+    <option value="meat">Meat</option>
+    <option value="dairy">Dairy</option>
+    <option value="snacks">Snacks</option>
+    <option value="drinks">Drinks</option>
+    <option value="healthy">Healthy</option>
+  </select>
+
+  <select id="foodOptions">
+    <option>Select Food</option>
+  </select>
+
+  <button onclick="analyzeFood()">Analyze My Food 🚀</button>
+
+  <div id="resultBox"></div>
+
+</div>
+
+<script src="script.js"></script>
 
 </body>
 </html>
